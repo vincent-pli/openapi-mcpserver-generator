@@ -5,6 +5,7 @@ A command-line tool that generates Model Context Protocol (MCP) server code from
 [![npm version](https://img.shields.io/npm/v/openapi-mcpserver-generator.svg)](https://www.npmjs.com/package/openapi-mcpserver-generator)
 [![License: MIT](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/MIT)
 
+English | [简体中文](./README-zh.md)
 
 ## At the beginning
 This repo is originally forked from [openapi-mcp-generator](https://github.com/harsha-iiiv/openapi-mcp-generator), and add some additional features:
