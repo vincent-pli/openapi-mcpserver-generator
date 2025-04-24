@@ -135,6 +135,48 @@ You can add generated MCP server congiguration like this:
 ```
 to the `~/.mcp.json`(default mcp server configuration path of `mcphost`), then take a try
 
+## Security Schemes in Openapi
+
+Openapi 3.0 support [4 security types](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md#security-scheme-object):
+- **apiKey**: 
+for example:
+```
+        "securitySchemes": {
+            "my_api_key": {
+                "type": "apiKey",
+                "name": "api_key",
+                "in": "header"
+            }
+        }
+```
+Expect a env param named upper cased `MY_API_KEY`_`{securitySchemes.my_api_key.name}`, in this case, it should be: `MY_API_KEY_API_KEY` defined in `.env`
+- **http:**
+```
+        "securitySchemes": {
+            basicAuth: {
+               type: "http",
+               scheme: "basic"
+            }
+        }
+```
+it try to find `BASICAUTH_USERNAME` and `BASICAUTH_PASSWORD` in `.env`
+```
+        "securitySchemes": {
+            basicAuth: {
+               type: "http",
+               scheme: "bearer"
+            }
+        }
+```
+it try to find `BASICAUTH_BEARERTOKEN` in `.env`
+- **oauth2:**
+Because of the complexity of oauth2, cannot handle it automaticly, we suggest manually get the `access token`, then set it to `.env` as this:
+```
+API_HEADERS=Authorization:Bearer your-access-token-here
+```
+- **openIdConnect**
+Not support yet
+
 ## License
 
 Apache 2.0

@@ -99,5 +99,47 @@ openapi-mcpserver-generator --openapi https://petstore3.swagger.io/api/v3/openap
 }
 ```
 到`~/.mcp.json`(默认的`mcphost`的MCP服务器配置路径)，然后进行尝试
+
+## Openapi中的安全模式
+Openapi 3.0 支持[4种安全类型](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md#security-scheme-object):
+- **apiKey**: 
+例如：
+```
+        "securitySchemes": {
+            "my_api_key": {
+                "type": "apiKey",
+                "name": "api_key",
+                "in": "header"
+            }
+        }
+```
+期望在`.env`中定义一个环境参数，名为大写的`MY_API_KEY`_`{securitySchemes.my_api_key.name}`，在这个例子中，应该是：`MY_API_KEY_API_KEY`
+- **http:**
+```
+        "securitySchemes": {
+            basicAuth: {
+               type: "http",
+               scheme: "basic"
+            }
+        }
+```
+它将试图在`.env`中找到`BASICAUTH_USERNAME`和`BASICAUTH_PASSWORD`
+```
+        "securitySchemes": {
+            basicAuth: {
+               type: "http",
+               scheme: "bearer"
+            }
+        }
+```
+它将试图在`.env`中找到`BASICAUTH_BEARERTOKEN`
+- **oauth2:**
+由于oauth2的复杂性，无法自动处理，我们建议手动获取`访问令牌`，然后如下设置到`.env`中：
+```
+API_HEADERS=Authorization:Bearer your-access-token-here
+```
+- **openIdConnect**
+暂不支持
+
 ## 许可证
 Apache 2.0
