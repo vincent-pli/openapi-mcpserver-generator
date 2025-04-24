@@ -1,16 +1,24 @@
-# OpenAPI to MCP Generator
+# OpenAPI to MCP server Generator
 
 A command-line tool that generates Model Context Protocol (MCP) server code from OpenAPI specifications. This tool helps you quickly create an MCP server that acts as a bridge between LLMs (Large Language Models) and your API.
 
 [![npm version](https://img.shields.io/npm/v/openapi-mcpserver-generator.svg)](https://www.npmjs.com/package/openapi-mcpserver-generator)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/MIT)
+
+
+## At the beginning
+This repo is originally forked from [openapi-mcp-generator](https://github.com/harsha-iiiv/openapi-mcp-generator), and add some additional features:
+
+- Support nested `$ref` in openapi specifications
+- Besides source code, generate MCP server configuration
+- Allow client to set log level and send log message to client as notification
+- When hit error, send message to stderr
 
 ## Features
 
 - **Automatic Tool Generation**: Converts each API endpoint in your OpenAPI spec into an MCP tool
-- **Multiple Transport Options**: Supports stdio, WebSocket, and HTTP transport methods
+- **Transport Options**: Only supports stdio, for sse you can leveral [mcp-prixy](https://github.com/sparfenyuk/mcp-proxy)
 - **Complete Project Setup**: Generates all necessary files to run an MCP server
-- **TypeScript Support**: Includes TypeScript definitions and configuration
 - **Easy Configuration**: Simple environment-based configuration for the generated server
 
 ## Installation
@@ -43,7 +51,6 @@ openapi-mcpserver-generator --openapi path/to/openapi.json --output /Path/to/out
 | `--name` | `-n` | Name for the MCP server | `openapi-mcp-server` |
 | `--version` | `-v` | Version for the MCP server | `1.0.0` |
 | `--transport` | `-t` | Transport mechanism (stdio, websocket, http) | `stdio` |
-| `--port` | `-p` | Port for websocket or HTTP server | `3000` |
 | `--help` | `-h` | Show help information | |
 
 ### Examples
@@ -58,12 +65,6 @@ Generate from a remote OpenAPI URL:
 
 ```bash
 openapi-mcpserver-generator --openapi https://petstore3.swagger.io/api/v3/openapi.json --output ./petstore-mcp
-```
-
-Specify a WebSocket transport:
-
-```bash
-openapi-mcpserver-generator --openapi ./specs/petstore.json --transport websocket --port 8080
 ```
 
 ## Generated Files
@@ -112,16 +113,27 @@ After generating your MCP server:
 - Node.js 16.x or higher
 - npm 7.x or higher
 
-## Contributing
+## E2E example
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Suggest use [mcphost](https://github.com/vincent-pli/mcphost) as MCP host to take a try.
+This tool(`mcphost`) could support both Azure Openai and deepseek
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+You can add generated MCP server congiguration like this:
+```
+{
+  "mcpServers": {
+    "petstore-mcp": {
+      "command": "/usr/local/bin/node",
+      "args": [
+        "/Users/lipeng/workspaces/github.com/vincent-pli/openapi-mcpserver-generator/petstore-mcp/server.js",
+        "run"
+      ]
+    }
+  }
+}
+```
+to the `~/.mcp.json`(default mcp server configuration path of `mcphost`), then take a try
 
 ## License
 
-MIT
+Apache 2.0
