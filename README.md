@@ -17,7 +17,7 @@ This repo is originally forked from [openapi-mcp-generator](https://github.com/h
 ## Features
 
 - **Automatic Tool Generation**: Converts each API endpoint in your OpenAPI spec into an MCP tool
-- **Transport Options**: Only supports stdio, for sse you can leveral [mcp-prixy](https://github.com/sparfenyuk/mcp-proxy)
+- **Transport Options**: Only supports stdio, for sse you can leveral [mcp-proxy](https://github.com/sparfenyuk/mcp-proxy)
 - **Complete Project Setup**: Generates all necessary files to run an MCP server
 - **Easy Configuration**: Simple environment-based configuration for the generated server
 
