@@ -22,9 +22,9 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/vincent-pli/openapi-mcp-generator"
+        "url": "git+https://github.com/vincent-pli/openapi-mcpserver-generator"
     },
-    "homepage": "https://github.com/vincent-pli/openapi-mcp-generator#readme",
+    "homepage": "https://github.com/vincent-pli/openapi-mcpserver-generator#readme",
     "dependencies": {
         "axios": "^1.6.0",
         "chalk": "^5.3.0",
