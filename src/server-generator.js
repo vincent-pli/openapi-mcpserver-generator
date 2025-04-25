@@ -114,7 +114,7 @@ class MCPServer {
     });
     this.server.setRequestHandler(SetLevelRequestSchema, async (request) => {
       this.log('debug', "Handling logging/setLevel request");
-      // mark isConnected is True
+      // set log level based on client requirement
       this.debug = request.params.level == "debug"
     });
     // Handle tool listing requests
@@ -131,16 +131,15 @@ class MCPServer {
 
     // Handle tool execution requests
     this.server.setRequestHandler(CallToolRequestSchema, async (request) => {
-      const { id, name, arguments: params } = request.params;
-      this.log('debug', "Handling CallTool request", { id, name, params });
+      const { name, arguments: params } = request.params;
+      this.log('debug', "Handling CallTool request", { name, params });
 
       let toolId;
       let toolDetails;
 
       try {
         // Find the requested tool
-        toolId = id;
-        if (!toolId && name) {
+        if (name) {
           for (const [tid, tool] of this.tools.entries()) {
             if (tool.name === name) {
               toolId = tid;
@@ -150,7 +149,7 @@ class MCPServer {
         }
 
         if (!toolId) {
-          throw new Error(\`Tool not found: \${id || name}\`);
+          throw new Error(\`Tool not found: \${toolId || name}\`);
         }
 
         toolDetails = TOOLS.find(t => t.id === toolId);
