@@ -18,6 +18,7 @@ import {
   CallToolRequestSchema,
   InitializedNotificationSchema,
   SetLevelRequestSchema,
+  EmptyResultSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 
 import { fileURLToPath } from 'url';
@@ -116,6 +117,7 @@ class MCPServer {
       this.log('debug', "Handling logging/setLevel request");
       // set log level based on client requirement
       this.debug = request.params.level == "debug"
+      return EmptyResultSchema
     });
     // Handle tool listing requests
     this.server.setRequestHandler(ListToolsRequestSchema, async () => {
