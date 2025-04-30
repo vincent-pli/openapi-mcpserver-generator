@@ -339,6 +339,7 @@ class MCPServer {
         if (this.server && this.isConnected) {
           this.server.sendLoggingMessage({
             level,
+            logger: "openapi-mcp-server",
             data: \`[MCP Server] \${message}\${data ? ': ' + JSON.stringify(data) : ''}\`
           });
         }
