@@ -82,8 +82,8 @@ openapi-mcpserver-generator --openapi https://petstore3.swagger.io/api/v3/openap
 - Node.js 16.x 或更高版本
 - npm 7.x 或更高版本
 ## E2E示例
-建议使用[mcphost](https://github.com/vincent-pli/mcphost)作为MCP主机进行尝试。
-这个工具（`mcphost`）可以同时支持Azure Openai和deepseek
+建议使用[mcpclihost](https://github.com/vincent-pli/mcp-cli-host)作为MCP主机进行尝试。
+这个工具（`mcpclihost`）可以同时支持Azure Openai和deepseek
 您可以像这样添加生成的MCP服务器配置：
 ```
 {
@@ -98,7 +98,7 @@ openapi-mcpserver-generator --openapi https://petstore3.swagger.io/api/v3/openap
   }
 }
 ```
-到`~/.mcp.json`(默认的`mcphost`的MCP服务器配置路径)，然后进行尝试
+到`~/.mcp.json`(默认的`mcpclihost`的MCP服务器配置路径)，然后进行尝试
 
 ## Openapi中的安全模式
 Openapi 3.0 支持[4种安全类型](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md#security-scheme-object):

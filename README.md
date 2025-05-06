@@ -116,8 +116,8 @@ After generating your MCP server:
 
 ## E2E example
 
-Suggest use [mcphost](https://github.com/vincent-pli/mcphost) as MCP host to take a try.
-This tool(`mcphost`) could support both Azure Openai and deepseek
+Suggest use [mcpclihost](https://github.com/vincent-pli/mcp-cli-host) as MCP host to take a try.
+This tool(`mcpclihost`) could support both Azure Openai and deepseek
 
 You can add generated MCP server congiguration like this:
 ```
@@ -133,7 +133,7 @@ You can add generated MCP server congiguration like this:
   }
 }
 ```
-to the `~/.mcp.json`(default mcp server configuration path of `mcphost`), then take a try
+to the `~/.mcp.json`(default mcp server configuration path of `mcpclihost`), then take a try
 
 ## Security Schemes in Openapi
 
