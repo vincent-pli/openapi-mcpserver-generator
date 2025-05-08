@@ -14,7 +14,7 @@ This repo is originally forked from [openapi-mcp-generator](https://github.com/h
 - Besides source code, generate MCP server configuration
 - Allow client to set log level and send log message to client as notification
 - When hit error, send message to stderr
-
+- Support build docker image and guide client to run in docker container (2025/5/8 updated)
 ## Features
 
 - **Automatic Tool Generation**: Converts each API endpoint in your OpenAPI spec into an MCP tool
@@ -78,6 +78,8 @@ The tool generates the following files in the output directory:
 - `.env.example` - Template for environment variables
 - `types.d.ts` - TypeScript type definitions for the API
 - `tsconfig.json` - TypeScript configuration
+- `Dockerfile` - Dockerfile
+- `.dockerignore` - Docker ignore file
 
 ## Using the Generated Server
 

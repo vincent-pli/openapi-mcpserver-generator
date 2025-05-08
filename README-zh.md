@@ -10,6 +10,7 @@
 - 不仅生成源代码，还生成MCP服务器配置
 - 允许客户端设置日志级别并将日志信息作为通知发送给客户端
 - 遇到错误时，将消息发送到stderr
+- 支持构建 Docker 镜像并指导客户端运行server的Docker容器（更新于 2025/5/8）
 ## 特性
 - **自动工具生成**：将OpenAPI规范中的每个API端点转换为一个MCP工具
 - **传输选项**：只支持stdio，对于sse，可以利用[mcp-proxy](https://github.com/sparfenyuk/mcp-proxy)
@@ -55,6 +56,8 @@ openapi-mcpserver-generator --openapi https://petstore3.swagger.io/api/v3/openap
 - `.env.example` - 环境变量的模板
 - `types.d.ts` - API的Typescript类型定义
 - `tsconfig.json` - TypeScript配置
+- `Dockerfile` - Dockerfile
+- `.dockerignore` - Docker ignore文件
 ## 使用生成的服务器
 生成MCP服务器后：
 1. 进入生成的目录：

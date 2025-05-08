@@ -26,4 +26,13 @@ async function generateServerConf(absolutePath){
     return config
 }
 
-export { generateServerConf };
+async function generateDockerServerConf(dockerImage){
+  const config = {
+    command: "docker",
+    args: ["run", "--rm", "-i", dockerImage],
+  };
+
+  return config
+}
+
+export { generateServerConf, generateDockerServerConf };

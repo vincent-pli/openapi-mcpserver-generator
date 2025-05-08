@@ -11,6 +11,7 @@ import { fileURLToPath } from 'url';
 import { loadOpenAPISpec } from './openapi-loader.js';
 import { generateTools } from './tool-generator.js';
 import { generateServerFile, generateServerTS } from './server-generator.js';
+import { generateDockerFiles } from './dockerfile-generator.js'
 import {
     generatePackageJson,
     generateReadme,
@@ -20,7 +21,7 @@ import {
     generateBuildScript
 } from './config-generator.js';
 import { copyTemplateFile } from './file-utils.js';
-import { generateServerConf } from './utils.js';
+import { generateServerConf, generateDockerServerConf } from './utils.js';
 
 // Get proper paths for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -119,6 +120,8 @@ async function main() {
         const typeDefinitions = generateTypeDefinitions(tools);
         const tsConfig = generateTsConfig();
         const buildScript = generateBuildScript();
+        const [dockerfile, dockerIgnoreFile] = generateDockerFiles()
+        
 
         // Write all files
         console.log("Writing files to output directory...");
@@ -130,7 +133,9 @@ async function main() {
             copyTemplateFile('.env.example', envExample, config.outputDir, config.verbose),
             copyTemplateFile('types.d.ts', typeDefinitions, config.outputDir, config.verbose),
             copyTemplateFile('tsconfig.json', tsConfig, config.outputDir, config.verbose),
-            copyTemplateFile('build.js', buildScript, config.outputDir, config.verbose)
+            copyTemplateFile('build.js', buildScript, config.outputDir, config.verbose),
+            copyTemplateFile('Dockerfile', dockerfile, config.outputDir, config.verbose),
+            copyTemplateFile('.dockerignore', dockerIgnoreFile, config.outputDir, config.verbose)
         ]);
 
         // Configuration for MCP server for client
@@ -138,21 +143,33 @@ async function main() {
         const absolutePath = path.resolve(config.outputDir);
         const serverConfig = await generateServerConf(absolutePath)
         const fullConfig = { mcpServers: { [serverName]: serverConfig } };
+        const serverConfigDocker = await generateDockerServerConf(serverName)
+        const fullConfigDocker = { mcpServers: { [serverName]: serverConfigDocker } };
         const success = results.every(Boolean);
 
         if (success) {
             console.log(`\n✅ MCP server generated successfully in "${config.outputDir}"`);
             console.log(`📚 Generated ${tools.length} tools from OpenAPI spec`);
             console.log('\nNext steps:');
+            console.log('🟢 Local run:');
             console.log('1. cd ' + config.outputDir);
             console.log('2. npm install');
             console.log('3. cp .env.example .env (and edit with your API details)');
             console.log('4. Run the server:');
             console.log('   - JavaScript version: npm start');
-            console.log('   - TypeScript version: npm run start:ts');
+            // console.log('   - TypeScript version: npm run start:ts');
             console.log('5. Config the client:')
             console.log(
                 `   To add the MCP server manually, add the following config to your MCP config-file:\n\n${chalk.yellow(JSON.stringify(fullConfig, null, 2))}`)
+            console.log('\n🟢 with Docker:'); 
+            console.log('1. cd ' + config.outputDir);
+            console.log('2. cp .env.example .env (and edit with your API details)');
+            console.log(`3. docker build -t ${serverName} .`);
+            console.log(`4. tag and push to repositroy if you want`);
+            console.log('5. Config the client:')
+            console.log(
+                `   To add the MCP server manually, add the following config to your MCP config-file:\n\n${chalk.yellow(JSON.stringify(fullConfigDocker, null, 2))}`)
+
         } else {
             console.error("❌ Some files failed to generate. Check the errors above.");
         }
